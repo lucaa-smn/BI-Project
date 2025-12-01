@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
-load_dotenv()  # liest .env ein
+load_dotenv()  # reads .env file and loads environment variables
 
 
 def _get_env(name: str) -> str:
