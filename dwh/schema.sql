@@ -11,7 +11,7 @@ CREATE TABLE dim_date (
 );
 
 CREATE TABLE dim_airport (
-    airport_id  varchar(10) PRIMARY KEY,  -- IATA-Code aus airports_geolocation
+    airport_id  varchar(50) PRIMARY KEY,  -- IATA-Code aus airports_geolocation
     name        text,
     city        text,
     state       text,
@@ -47,7 +47,7 @@ CREATE TABLE fact_flights (
     flight_date_id    integer     NOT NULL REFERENCES dim_date (date_id),
     dep_airport_id    varchar(10) NOT NULL REFERENCES dim_airport (airport_id),
     arr_airport_id    varchar(10)     NULL REFERENCES dim_airport (airport_id),
-    airline_id        varchar(10) NOT NULL REFERENCES dim_airline (airline_id),
+    airline_id        varchar(50) NOT NULL REFERENCES dim_airline (airline_id),
     weather_id        bigint          NULL REFERENCES dim_weather (weather_id),
 
     -- Business Keys / Identifikation

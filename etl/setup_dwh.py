@@ -10,6 +10,29 @@ def get_schema_path() -> Path:
     return schema_path
 
 
+def drop_old_schema() -> None:
+    """
+    Löscht die bestehenden DWH-Tabellen, bevor das neue Schema eingespielt wird.
+    Falls die Tabellen noch nicht existieren, ist das dank IF EXISTS unkritisch.
+    """
+    engine = get_engine()
+
+    drop_sql = """
+    DROP TABLE IF EXISTS fact_flights CASCADE;
+    DROP TABLE IF EXISTS dim_weather CASCADE;
+    DROP TABLE IF EXISTS dim_airline CASCADE;
+    DROP TABLE IF EXISTS dim_airport CASCADE;
+    DROP TABLE IF EXISTS dim_date CASCADE;
+    """
+
+    print("🧹 Lösche bestehende DWH-Tabellen (falls vorhanden)...")
+
+    with engine.begin() as conn:
+        conn.exec_driver_sql(drop_sql)
+
+    print("✅ Alte Tabellen (falls vorhanden) wurden gelöscht.")
+
+
 def run_schema():
     schema_path = get_schema_path()
 
@@ -22,6 +45,8 @@ def run_schema():
     print(f"Verwende schema.sql unter: {schema_path}")
 
     schema_sql = schema_path.read_text(encoding="utf-8")
+
+    drop_old_schema()
 
     engine = get_engine()
 
