@@ -21,13 +21,13 @@ CREATE TABLE dim_airport (
 );
 
 CREATE TABLE dim_airline (
-    airline_id   varchar(10) PRIMARY KEY, -- Airline-Code aus US_flights_2023
+    airline_id   varchar(50) PRIMARY KEY, -- Airline-Code aus US_flights_2023
     airline_name text
 );
 
 CREATE TABLE dim_weather (
     weather_id   bigserial PRIMARY KEY,
-    airport_id   varchar(10) NOT NULL REFERENCES dim_airport (airport_id),
+    airport_id   varchar(50) NOT NULL REFERENCES dim_airport (airport_id),
     date_id      integer     NOT NULL REFERENCES dim_date (date_id),
 
     -- Wettermetriken aus weather_meteo_by_airport.csv
@@ -45,8 +45,8 @@ CREATE TABLE fact_flights (
 
     -- Fremdschlüssel
     flight_date_id    integer     NOT NULL REFERENCES dim_date (date_id),
-    dep_airport_id    varchar(10) NOT NULL REFERENCES dim_airport (airport_id),
-    arr_airport_id    varchar(10)     NULL REFERENCES dim_airport (airport_id),
+    dep_airport_id    varchar(50) NOT NULL REFERENCES dim_airport (airport_id),
+    arr_airport_id    varchar(50)     NULL REFERENCES dim_airport (airport_id),
     airline_id        varchar(50) NOT NULL REFERENCES dim_airline (airline_id),
     weather_id        bigint          NULL REFERENCES dim_weather (weather_id),
 
