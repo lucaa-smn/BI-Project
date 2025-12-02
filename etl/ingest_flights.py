@@ -59,7 +59,9 @@ def _normalize_dep_time_columns(df: pd.DataFrame) -> pd.DataFrame:
 def _cast_delay_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
     Castet relevante Delay-Spalten auf numerische Typen.
-    Fehlerhafte Werte werden zu NaN (pandas NA).
+    Fehlerhafte Werte werden zu NaN.
+    Negative Werte (früher Abflug/Ankunft) werden auf 0 gecappt,
+    weil wir "Delay" als Verspätung interpretieren.
     """
 
     delay_cols = [
@@ -75,6 +77,7 @@ def _cast_delay_columns(df: pd.DataFrame) -> pd.DataFrame:
     for col in delay_cols:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col], errors="coerce")
+            df[col] = df[col].clip(lower=0)
 
     return df
 
