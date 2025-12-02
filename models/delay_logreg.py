@@ -309,28 +309,40 @@ def predict_delay_proba(
     """
     Gibt P(Delay >= 15 Minuten) für eine gegebene Konfiguration zurück.
 
-    Parameter:
-        airport_id: Abflughafen (z. B. 'JFK')
-        airline_id: Airline (z. B. 'Delta Air Lines Inc')
-        dep_time_label: Zeitfenster-Label (z. B. 'Morning', '08-09h')
-        tavg: Durchschnittstemperatur
-        prcp: Niederschlag
-        wspd: Windgeschwindigkeit
-        num_departures_same_slot_airport: Kongestion-Feature
-        model_path: optional, Pfad zur gespeicherten Pipeline
+    Hinweis:
+      Das Modell wurde mit zusätzlichen Features trainiert:
+        - arr_airport_id
+        - month
+        - day_of_week
+        - is_weekend
 
-    Rückgabe:
-        Wahrscheinlichkeit (float) für Delay >= 15 Minuten.
+      Da diese in der Inferenz-Signatur nicht vorkommen, werden hier
+      einfache Default-Werte gesetzt:
+        - arr_airport_id = dep_airport_id
+        - month = 1
+        - day_of_week = 1
+        - is_weekend = False
+
+      Für eine realistische Nutzung kannst du die Funktion später
+      erweitern (z. B. um ein Datum und arr_airport_id).
     """
 
     pipeline = _load_trained_pipeline(model_path)
 
+    dep_airport = airport_id.strip().upper()
+    airline = airline_id.strip()
+    dep_label = dep_time_label.strip()
+
     data = pd.DataFrame(
         [
             {
-                "dep_airport_id": airport_id.strip().upper(),
-                "airline_id": airline_id.strip(),
-                "dep_time_label": dep_time_label.strip(),
+                "dep_airport_id": dep_airport,
+                "arr_airport_id": dep_airport,
+                "airline_id": airline,
+                "dep_time_label": dep_label,
+                "month": 1,
+                "day_of_week": 1,
+                "is_weekend": False,
                 "tavg": float(tavg),
                 "prcp": float(prcp),
                 "wspd": float(wspd),
