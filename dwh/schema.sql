@@ -43,39 +43,30 @@ CREATE TABLE dim_weather (
 CREATE TABLE fact_flights (
     flight_id         bigserial PRIMARY KEY,
 
-    -- Fremdschlüssel
     flight_date_id    integer     NOT NULL REFERENCES dim_date (date_id),
     dep_airport_id    varchar(50) NOT NULL REFERENCES dim_airport (airport_id),
     arr_airport_id    varchar(50)     NULL REFERENCES dim_airport (airport_id),
     airline_id        varchar(50) NOT NULL REFERENCES dim_airline (airline_id),
     weather_id        bigint          NULL REFERENCES dim_weather (weather_id),
 
-    -- Business Keys / Identifikation
-    flight_number     varchar(20),    -- z. B. "DL1234"
-    tail_number       varchar(20),    -- aus Flights/Cancellation File
-    sched_dep_time    time,           -- geplante Abflugzeit
-    sched_arr_time    time,           -- geplante Ankunftszeit
-    dep_time_label    varchar(10),    -- dein normalisiertes Label (z. B. '08-09h')
+    tail_number       varchar(20),
+    dep_time_label    varchar(10),
 
-    -- Measures
     dep_delay_min     numeric(6,2),
     arr_delay_min     numeric(6,2),
-    distance          numeric(7,1),
 
     cancelled         boolean NOT NULL DEFAULT false,
     diverted          boolean NOT NULL DEFAULT false,
-    cancellation_code varchar(5),
 
-    -- Abgeleitete Flags für BI/ML
-    is_delayed_15     boolean NOT NULL,  -- im ETL setzen: dep_delay_min >= 15
+    is_delayed_15     boolean NOT NULL,
 
-    -- optionale Detail-Delay-Spalten, falls im Datensatz vorhanden:
-    carrier_delay_min numeric(6,2),
-    weather_delay_min numeric(6,2),
-    nas_delay_min     numeric(6,2),
-    security_delay_min numeric(6,2),
+    carrier_delay_min        numeric(6,2),
+    weather_delay_min        numeric(6,2),
+    nas_delay_min           numeric(6,2),
+    security_delay_min      numeric(6,2),
     late_aircraft_delay_min numeric(6,2)
 );
+
 
 
 CREATE INDEX idx_fact_flights_date_airport_airline

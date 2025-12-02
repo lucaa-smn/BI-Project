@@ -158,3 +158,49 @@ def test_delay_values_non_negative(filename: str):
         assert (
             negatives.empty
         ), f"{filename}: Spalte {col} enthält negative Delay-Werte, Beispiele: {negatives.head().tolist()}"
+
+
+@pytest.mark.parametrize("filename", ["flights_enriched_weather.parquet"])
+def test_staging_has_no_all_null_columns(filename: str):
+    """
+    Stellt sicher, dass im Staging-Dataset (z. B. flights_enriched_weather.parquet)
+    keine Spalten existieren, die zu 100 % NULL / NaN sind.
+
+    Idee:
+      - Wir laden das Parquet über _load_parquet.
+      - Für jede Spalte prüfen wir: gibt es mindestens einen non-null Wert?
+      - Falls nicht, schlägt der Test fehl und listet die betroffenen Spalten.
+    """
+    df = _load_parquet(filename)
+
+    if df.empty:
+        pytest.skip(f"{filename} ist leer – Test wird übersprungen.")
+        return
+
+    protected_cols = {
+        "FlightDate",
+        "date_id",
+        "Dep_Airport",
+        "Arr_Airport",
+        "Airline",
+        "Dep_Delay",
+        "Arr_Delay",
+        "is_cancelled",
+        "is_diverted",
+        "is_delayed_15",
+    }
+
+    all_null_cols = []
+    for col in df.columns:
+        if col in protected_cols:
+            continue
+
+        has_non_null = df[col].notna().any()
+        if not has_non_null:
+            all_null_cols.append(col)
+
+    assert not all_null_cols, (
+        f"In {filename} gibt es Spalten, die vollständig NULL sind. "
+        "Diese solltest du aus Schema/load_fact_flights entfernen oder bewusst behandeln.\n"
+        f"Betroffene Spalten: {all_null_cols}"
+    )
