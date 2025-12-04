@@ -8,7 +8,7 @@ def get_delay_overview_layout():
         [
             html.H3("Delay Overview"),
             html.P(
-                "Übersicht über durchschnittliche Verspätungen nach Datum, Airport und Airline."
+                "Overview for the average Delay sorted by Date, Airport and Airline."
             ),
             dbc.Row(
                 [
@@ -18,7 +18,7 @@ def get_delay_overview_layout():
                             dcc.Dropdown(
                                 id="delay-overview-airport-dropdown",
                                 options=[],
-                                placeholder="Wähle einen Airport...",
+                                placeholder="Chose an Airport...",
                             ),
                         ],
                         md=4,
@@ -29,14 +29,14 @@ def get_delay_overview_layout():
                             dcc.Dropdown(
                                 id="delay-overview-airline-dropdown",
                                 options=[],
-                                placeholder="Wähle eine Airline...",
+                                placeholder="Chose an Airline...",
                             ),
                         ],
                         md=4,
                     ),
                     dbc.Col(
                         [
-                            html.Label("Zeitraum"),
+                            html.Label("Period"),
                             dcc.DatePickerRange(
                                 id="delay-overview-date-range",
                                 display_format="YYYY-MM-DD",
@@ -70,8 +70,8 @@ def get_weather_impact_layout():
         [
             html.H3("Weather Impact on Delays"),
             html.P(
-                "Analyse des Einflusses von Wettermetriken (Temperatur, Niederschlag, Wind) "
-                "auf die Verspätungswahrscheinlichkeit."
+                "Analysis of Influences (temperature, precipitation, wind) "
+                "on the Delay Probability."
             ),
             dbc.Row(
                 [
@@ -81,14 +81,14 @@ def get_weather_impact_layout():
                             dcc.Dropdown(
                                 id="weather-impact-airport-dropdown",
                                 options=[],
-                                placeholder="Wähle einen Airport...",
+                                placeholder="Chose an Airport...",
                             ),
                         ],
                         md=4,
                     ),
                     dbc.Col(
                         [
-                            html.Label("Zeitraum"),
+                            html.Label("Period"),
                             dcc.DatePickerRange(
                                 id="weather-impact-date-range",
                                 display_format="YYYY-MM-DD",
@@ -135,7 +135,7 @@ def get_cancellations_diversions_layout():
         [
             html.H3("Cancellations & Diversions"),
             html.P(
-                "Übersicht über Cancelled- und Diverted-Flüge pro Airport, Airline und Zeitraum."
+                "Overview of cancelled and diverted Flights via Airport, Airline and Period."
             ),
             dbc.Row(
                 [
@@ -145,7 +145,7 @@ def get_cancellations_diversions_layout():
                             dcc.Dropdown(
                                 id="cxl-div-airport-dropdown",
                                 options=[],
-                                placeholder="Wähle einen Airport...",
+                                placeholder="Chose an Airport...",
                             ),
                         ],
                         md=4,
@@ -156,14 +156,14 @@ def get_cancellations_diversions_layout():
                             dcc.Dropdown(
                                 id="cxl-div-airline-dropdown",
                                 options=[],
-                                placeholder="Wähle eine Airline...",
+                                placeholder="Chose an Airline...",
                             ),
                         ],
                         md=4,
                     ),
                     dbc.Col(
                         [
-                            html.Label("Zeitraum"),
+                            html.Label("Period"),
                             dcc.DatePickerRange(
                                 id="cxl-div-date-range",
                                 display_format="YYYY-MM-DD",
@@ -197,13 +197,13 @@ def get_airline_performance_layout():
         [
             html.H3("Airline Performance"),
             html.P(
-                "Vergleich der Airlines hinsichtlich Pünktlichkeit, Cancellations und Diversions."
+                "Comparison of Airlines on Punctuality, Cancellations and Diversions."
             ),
             dbc.Row(
                 [
                     dbc.Col(
                         [
-                            html.Label("Zeitraum"),
+                            html.Label("Period"),
                             dcc.DatePickerRange(
                                 id="airline-perf-date-range",
                                 display_format="YYYY-MM-DD",
@@ -213,7 +213,7 @@ def get_airline_performance_layout():
                     ),
                     dbc.Col(
                         [
-                            html.Label("Sortiere nach"),
+                            html.Label("Sort by"),
                             dcc.Dropdown(
                                 id="airline-perf-sort-by",
                                 options=[
@@ -254,8 +254,8 @@ def get_predictive_delay_layout():
         [
             html.H3("Predictive Delay (Logistic Regression)"),
             html.P(
-                "Schätze die Wahrscheinlichkeit einer Verspätung (>= 15 Minuten) "
-                "auf Basis von Airport, Airline, Zeitfenster und Wetter."
+                "Estimate the Probability of a Delay (>= 15 min) "
+                "on certain Inputs(Airport, Airline, Time and Weather)."
             ),
             dbc.Row(
                 [
@@ -265,28 +265,28 @@ def get_predictive_delay_layout():
                             dcc.Dropdown(
                                 id="pred-delay-airport-dropdown",
                                 options=[],
-                                placeholder="Wähle einen Airport...",
+                                placeholder="Chose an Airport...",
                             ),
                             html.Br(),
                             html.Label("Airline"),
                             dcc.Dropdown(
                                 id="pred-delay-airline-dropdown",
                                 options=[],
-                                placeholder="Wähle eine Airline...",
+                                placeholder="Chose an Airline...",
                             ),
                             html.Br(),
                             html.Label("Dep Time Label"),
                             dcc.Dropdown(
                                 id="pred-delay-deptime-dropdown",
                                 options=[],
-                                placeholder="Wähle ein Zeitfenster...",
+                                placeholder="Chose a Period...",
                             ),
                         ],
                         md=4,
                     ),
                     dbc.Col(
                         [
-                            html.Label("Durchschnittstemperatur (tavg)"),
+                            html.Label("Average temperature (tavg)"),
                             dcc.Input(
                                 id="pred-delay-tavg",
                                 type="number",
@@ -294,7 +294,7 @@ def get_predictive_delay_layout():
                             ),
                             html.Br(),
                             html.Br(),
-                            html.Label("Niederschlag (prcp)"),
+                            html.Label("Precipitation (prcp)"),
                             dcc.Input(
                                 id="pred-delay-prcp",
                                 type="number",
@@ -302,7 +302,7 @@ def get_predictive_delay_layout():
                             ),
                             html.Br(),
                             html.Br(),
-                            html.Label("Windgeschwindigkeit (wspd)"),
+                            html.Label("wind speed (wspd)"),
                             dcc.Input(
                                 id="pred-delay-wspd",
                                 type="number",
@@ -310,7 +310,7 @@ def get_predictive_delay_layout():
                             ),
                             html.Br(),
                             html.Br(),
-                            html.Label("Abflüge im selben Zeitfenster (Kongestion)"),
+                            html.Label("Departures in the same period (congestion)"),
                             dcc.Input(
                                 id="pred-delay-num-deps",
                                 type="number",
@@ -326,17 +326,17 @@ def get_predictive_delay_layout():
                             html.Div(
                                 [
                                     html.Button(
-                                        "Vorhersage berechnen",
+                                        "Prediction",
                                         id="pred-delay-submit",
                                         n_clicks=0,
                                         className="btn btn-primary",
                                     ),
                                     html.Br(),
                                     html.Br(),
-                                    html.H4("Ergebnis"),
+                                    html.H4("Result"),
                                     html.Div(
                                         id="pred-delay-result",
-                                        children="Bitte Parameter wählen und 'Vorhersage berechnen' klicken.",
+                                        children="Please chose parameters and click 'Prediction'.",
                                     ),
                                 ]
                             )

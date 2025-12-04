@@ -82,7 +82,7 @@ def register_callbacks(app):
         num_deps,
     ):
         if not n_clicks:
-            return "Bitte Parameter wählen und 'Vorhersage berechnen' klicken."
+            return "Please chose parameters and click 'Prediction'."
 
         missing = []
         if not airport_id:

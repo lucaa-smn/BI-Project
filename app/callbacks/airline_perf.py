@@ -109,7 +109,7 @@ def register_callbacks(app):
             df_sorted,
             x="airline_display",
             y=metric_col,
-            title=f"Airline Performance – sortiert nach {metric_label}",
+            title=f"Airline performance – sorted by {metric_label}",
             labels={
                 "airline_display": "Airline",
                 metric_col: metric_label,
